@@ -1,0 +1,174 @@
+body {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-family: arial;
+	display:flex;
+	flex-direction: column;
+}
+
+h2 {
+	display: inline;
+}
+
+h3 {
+	display: inline;
+}
+
+h4 {
+	display: inline;
+}
+
+label {
+	text-align: right;
+}
+
+#maker label::after {
+	content: " : ";
+	vertical-align: center;
+}
+
+#maker input {
+	width: 250px;
+}
+
+#logo {
+	position: absolute;
+	font-size: 25px;
+	z-index: 3;
+	padding: 10px;
+	margin: 0px;
+}
+
+#banner {
+	position:relative; 
+	width: 100%;
+	opacity: .7;
+}
+
+/* Header and Footer */
+body>header {
+	flex: 1;
+	display: flex;
+	border-bottom: 2px solid #000;
+}
+
+body>footer {
+	flex: 1;
+	display: flex;
+	border-top: 2px solid #000;
+	overflow: hidden;
+}
+
+body>footer>#progress>.page:nth-child(2n) {
+	background-color: #BBB;
+}
+
+body>*>div {
+	flex: 1;
+	display: flex;
+	background-color: #FFF;
+}
+
+body>*>div:nth-child(1) {
+	flex: 3;
+}
+
+body>*>div:nth-child(2) button {
+	flex: 1;
+}
+
+body>section {
+	flex: 8;
+	overflow:auto;
+}
+
+#progress {
+	display: flex;
+}
+
+.page {
+	width: 15%;
+	border-right: 1px solid black;
+	overflow: auto;
+}
+
+.page>.header {
+	text-align: center;
+	border: 1px solid #000;
+	margin: 2px;
+	background-color: #FFF;
+	color: #009999;
+	overflow: hidden;
+}
+
+.question-holder {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.question {
+	flex: 1 1 25%;
+	margin: 2px;
+	padding: 0;
+	border: 1px solid black;
+}
+.complete {
+	background-color: #F5DA81;
+}
+/* */
+
+/* Maker */
+#maker>*:nth-child(n-1) {
+	border-bottom: 2px solid #333;
+	padding: 4px;
+}
+
+#maker section {
+	margin: 4px 4px;
+	padding: 4px;
+	border-left: 2px solid #000;
+}
+
+#maker>section:nth-child(2n+1) {
+	background-color: #DDD;
+}
+
+#maker>section>section:nth-child(2n) {
+	background-color: #BBB;
+}
+/* */
+
+/* Viewer */
+#viewer>* {
+	width: 100%;
+	border-bottom: 2px solid #000;
+	margin-bottom: 4px;
+}
+
+#viewer>header {
+	background-color: #009999;
+	color: #FFF;
+	text-align: center;
+}
+
+#viewer>section {
+	width: 80%;
+	margin: 0px 10%;	
+}
+
+#viewer>section>ol {
+	padding-right: 40px;
+}
+
+#viewer>section>ol>li>form>input {
+	width: 100%;
+}
+
+#viewer>section>ol>li>form>textarea {
+	resize: none;
+	width: 100%;
+}
+/* */

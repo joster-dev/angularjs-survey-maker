@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html
+id="data-ng-app"
+data-ng-app="surveyApp">
+<head>
+	<meta charset="utf-8">
+	<title>Survey Application</title>
+
+	<link rel="stylesheet" href="style.css">
+	<script src="js/angular.js" type="text/javascript"></script>
+	<script src="js/jquery-2.0.2.min.js" type="text/javascript"></script>
+	<script src="js/app.js" type="text/javascript"></script>
+</head>
+<body
+data-ng-controller="appCtrl"
+data-ng-init="changeViews(1)">
+
+
+
+	<header
+	data-ng-show="session.viewHeader">
+		<div>
+			<div>
+				<h2 id="logo">Company</h2>
+			</div>
+			<img id="banner" src="assets\People.jpg"
+			data-ng-click="checkVal()">
+		</div>
+		<div>
+			<button
+			data-ng-click="newSurvey()">Create a new Survey</button>
+			<button
+			data-ng-click="changeViews(2)">Take an existing Survey</button>	
+		</div>
+	</header>
+
+
+
+	<section
+	id="maker"
+	data-ng-show="session.view1">
+		<header>
+			<label><h2>Survey Title</h2></label>
+			<input type="text" data-ng-model="session.survey.title">
+			<button data-ng-click="session.survey.addPage()">Add a new page </button>
+		</header>
+
+		<section
+		data-ng-repeat="page in session.survey.pages">
+			<div>
+				<h2>Page {{$index+1}}</h2>
+				<button data-ng-click="session.survey.removePage($index)">Remove</button>
+				<button data-ng-click="page.addQuestion(page.newQuestion)">Add a new question</button>
+			</div>
+			<div>
+				<label>Page Title</label>
+				<input type="text" data-ng-model="page.title">
+			</div>
+			<div>
+				<label>New Question Type</label>
+				<select
+				data-ng-init="page.newQuestion"
+				data-ng-model="page.newQuestion"
+				data-ng-options="type.name for type in types">
+				</select>
+			</div>
+			<section
+			data-ng-repeat="question in page.questions">
+				<div>
+					<h3>Question {{$index+1}}</h3>
+					<button data-ng-click="page.removeQuestion($index)">Remove</button>
+					<button 
+					data-ng-show="question.longResponse === undefined && question.shortResponse === undefined"
+					data-ng-click="question.addChoice()">Add a new choice</button>
+				</div>
+				<div>
+					<label>Question Content</label>
+					<input data-ng-model="question.content"></input>
+				</div>
+				<div>
+					<label>Question Type</label>
+					<input type="text" data-ng-model="question.type" readonly>
+					<button data-ng-show=""></button>
+				</div>
+				<section
+				data-ng-repeat="choice in question.choices">
+					<div>
+						<h4>Choice {{$index+1}}</h4>
+						<button data-ng-click="question.removeChoice($index)">Remove</button>
+					</div>
+					<div>
+						<label>Choice Content</label>
+						<input type="text" data-ng-model="choice.content">
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+
+
+
+	<section
+	id="finder"
+	data-ng-show="session.view2">
+		<h3>View Published Surveys</h3>
+		<div>
+			<div
+			class="row"
+			data-ng-repeat="survey in hostedSurveys">
+				
+			</div>	
+		</div>
+	</section>
+
+
+
+	<section
+	id="viewer"
+	data-ng-show="session.view3">
+		<header>
+			<h2>{{session.survey.title}}</h2>
+		</header>
+		<section
+		data-ng-repeat="page in session.survey.pages">
+			<header>
+				<h3 data-ng-show="page.title">{{page.title}}</h3>
+			</header>
+			<ol>
+				<li data-ng-repeat="question in page.questions">
+					<b>{{question.content}}</b>
+					<form
+					data-ng-show="question.type === types[0].name">
+						<div
+						data-ng-repeat="choice in question.choices">
+							<input 
+							type="radio"
+							data-ng-model="question.answer"
+							name="{{$index}}"
+							value="{{$index}}">
+							<label>{{choice.content}}</label>
+						</div>
+					</form>
+					<form
+					data-ng-show="question.type === types[1].name"
+					data-ng-repeat="choice in question.choices">
+						<div>
+							<input 
+							type="checkbox"
+							data-ng-model="choice.answer">
+							<label>{{choice.content}}</label>
+						</div>
+					</form>
+					<form
+					data-ng-show="question.type === types[2].name"
+					data-ng-repeat="choice in question.choices">
+						<div>
+							<input 
+							type="radio" 
+							data-ng-model="question.answer"
+							name="{{$index}}"
+							value="{{$index}}">
+							<label>{{choice.content === "" ? $index : choice.content}}</label>
+						</div>
+					</form>
+					<form
+					data-ng-show="question.type === types[3].name">
+						<input type="text" data-ng-model="question.shortResponse">
+					</form>
+					<form
+					data-ng-show="question.type === types[4].name">
+						<textarea data-ng-model="question.longResponse"></textarea>
+					</form>
+				</li>
+			</ol>
+		</section>
+	</section>
+
+
+
+	<footer
+	data-ng-show="session.viewFooter">
+		<div id="progress">
+			<div class="page" data-ng-repeat="page in session.survey.pages">
+				<div class="header">
+					<b>
+					{{page.title === "Page Title" ? "Page " + ($index+1) : page.title}}</b>
+				</div>
+				<div
+				class="question-holder">
+					<button
+					class="question"
+					data-ng-repeat="question in page.questions">
+						{{$index+1}}
+					</button>
+				</div>
+				
+			</div>
+		</div>
+		<div>
+			<button
+			data-ng-click="session.view1 ? changeViews(3) : changeViews(1)">
+				{{session.view1 ? "Survey View" : "Back"}}</button>
+			<button
+			data-ng-click="changeViews(2)">Complete</button>
+		</div>
+	</footer>
+</body>
+</html>
